@@ -1,0 +1,5 @@
+# DEMO_HOST=:80 serves plain HTTP. Set DEMO_HOST to a domain name for
+# automatic HTTPS (ports 80 and 443 must reach this host).
+{$DEMO_HOST} {
+	reverse_proxy web:8080
+}

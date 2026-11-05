@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}TrustScout{% endblock %}</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/htmx.min.js" defer></script>
+  <script src="/static/sse.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <a class="mark" href="/">
+      <span class="stamp">TS</span>
+      <span>TrustScout</span>
+    </a>
+    <p class="mode {% if mode == 'live' %}mode-live{% elif mode == 'fake-runner' %}mode-fake{% endif %}">
+      {% if mode == 'live' %}Live · Vultr Serverless Inference
+      {% elif mode == 'fake-runner' %}Fake runner · tests only, not a sandbox
+      {% else %}Mock mode · deterministic fixtures
+      {% endif %}
+    </p>
+  </header>
+  <main>
+    {% block main %}{% endblock %}
+  </main>
+  <footer class="foot">
+    <p>Nothing is purchased. A person has to click before any action is logged.</p>
+  </footer>
+</body>
+</html>

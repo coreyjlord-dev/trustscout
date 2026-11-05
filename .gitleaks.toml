@@ -1,0 +1,14 @@
+title = "TrustScout gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Demo fixtures name the env var but never hold a real key."
+paths = [
+  '''mockmarket/payloads/hostile_price.py''',
+  '''\.env\.example''',
+]
+regexes = [
+  '''VULTR_INFERENCE_API_KEY''',
+]

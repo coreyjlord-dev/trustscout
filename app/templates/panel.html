@@ -1,0 +1,56 @@
+<section class="results">
+  <p id="run-status" class="status" hx-swap-oob="outerHTML">{{ run.status }}</p>
+  <h2>Verdicts</h2>
+  {% for verdict in verdicts %}
+  <article class="verdict risk-{{ verdict.risk }}">
+    <header>
+      <p class="risk">{{ verdict.risk }} risk · {{ verdict.score }}</p>
+      <h3>{{ verdict.listing_url }}</h3>
+    </header>
+    <p class="summary">{{ verdict.summary }}</p>
+    <ul class="reasons">
+      {% for reason in verdict.reason_list %}
+      <li>
+        {{ reason.text }}
+        {% if reason.artifact_id %}
+        <a href="/artifacts/{{ reason.artifact_id }}">View receipt</a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="gallery">
+      {% for art in artifacts if art.listing_url == verdict.listing_url %}
+      <figure>
+        <a href="/artifacts/{{ art.id }}">
+          {% if art.path.endswith('.png') %}
+          <img src="/artifacts/{{ art.id }}" alt="{{ art.label }}">
+          {% else %}
+          <span>{{ art.label }}</span>
+          {% endif %}
+        </a>
+        <figcaption>{{ art.label }}</figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+  </article>
+  {% endfor %}
+  <section class="gate">
+    <h2>Approval gate</h2>
+    <p>These buttons only write an audit row. They do not message a seller or buy the item.</p>
+    <form method="post" action="/runs/{{ run.id }}/approve"
+      hx-post="/runs/{{ run.id }}/approve" hx-target="#approvals" hx-swap="beforeend">
+      <input type="hidden" name="action" value="message_seller">
+      <button type="submit">Message seller</button>
+    </form>
+    <form method="post" action="/runs/{{ run.id }}/approve"
+      hx-post="/runs/{{ run.id }}/approve" hx-target="#approvals" hx-swap="beforeend">
+      <input type="hidden" name="action" value="save_watchlist">
+      <button type="submit" class="ghost">Save to watchlist</button>
+    </form>
+    <div id="approvals">
+      {% for approval in approvals %}
+      {% include "approval.html" %}
+      {% endfor %}
+    </div>
+  </section>
+</section>

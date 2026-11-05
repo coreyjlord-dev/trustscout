@@ -1,0 +1,43 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      TRUSTSCOUT_MODE: ${TRUSTSCOUT_MODE:-mock}
+      TRUSTSCOUT_PUBLIC_BASE: ${TRUSTSCOUT_PUBLIC_BASE:-http://localhost:8080}
+      TRUSTSCOUT_INTERNAL_BASE: http://web:8080
+      TRUSTSCOUT_APP_NETWORK: trustscout_app
+      TRUSTSCOUT_DATA_DIR: /var/lib/trustscout
+      TRUSTSCOUT_HOST_DATA_DIR: /var/lib/trustscout
+      TRUSTSCOUT_ROOT: /opt/trustscout
+      VULTR_INFERENCE_API_KEY: ${VULTR_INFERENCE_API_KEY:-}
+    volumes:
+      - /var/lib/trustscout:/var/lib/trustscout
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - app
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DEMO_HOST: ${DEMO_HOST:-:80}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+    networks:
+      - app
+    depends_on:
+      - web
+    restart: unless-stopped
+
+networks:
+  app:
+    name: trustscout_app
+
+volumes:
+  caddy-data:

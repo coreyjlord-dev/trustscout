@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}TrustScout · check a listing{% endblock %}
+{% block main %}
+<section class="hero">
+  <div>
+    <p class="kicker">Marketplace inspection</p>
+    <h1>Check the deal before you pay.</h1>
+    <p class="lede">
+      TrustScout opens each listing in a throwaway browser, reads the price and
+      the seller against a screenshot, and prices it against comps in a second
+      container that has no network. Every reason links to a receipt.
+    </p>
+  </div>
+  <form class="desk" method="post" action="/runs">
+    <label for="urls">Listing URLs or Northlot slugs</label>
+    <textarea id="urls" name="urls" rows="6"
+      placeholder="http://localhost:8080/market/oak-writing-desk"></textarea>
+    <button type="submit">Inspect</button>
+  </form>
+</section>
+<section class="market">
+  <div class="market-head">
+    <h2>Northlot demo set</h2>
+    <form method="post" action="/runs">
+      <textarea name="urls" hidden>{% for item in listings %}
+{{ public_base }}/market/{{ item.slug }}
+{% endfor %}</textarea>
+      <button type="submit" class="ghost">Check all 8</button>
+    </form>
+  </div>
+  <ul class="grid">
+    {% for item in listings %}
+    <li class="card scenario-{{ item.scenario }}">
+      <a class="shot" href="/market/{{ item.slug }}">
+        <img src="/market/{{ item.photo }}" alt="">
+      </a>
+      <p class="tag">{{ item.scenario_label }}</p>
+      <h3><a href="/market/{{ item.slug }}">{{ item.title }}</a></h3>
+      <p class="price">${{ item.price }}</p>
+      <p class="seller">{{ item.seller }}</p>
+      <form method="post" action="/runs">
+        <input type="hidden" name="urls" value="{{ public_base }}/market/{{ item.slug }}">
+        <button type="submit">Check this listing</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

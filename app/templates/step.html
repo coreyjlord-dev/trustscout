@@ -1,0 +1,7 @@
+<li class="step step-{{ step.status }}">
+  <span class="step-name">{{ step.name }}</span>
+  <span class="step-detail">{{ step.detail }}</span>
+  {% if step.container_id %}
+  <span class="step-box">container {{ step.container_id }}</span>
+  {% endif %}
+</li>
