@@ -208,6 +208,11 @@ tempCodeRunnerFile.py
 # Ruff stuff:
 .ruff_cache/
 
+# TrustScout runtime data and local env
+/data/
+*.sqlite
+*.sqlite-journal
+
 # PyPI configuration file
 .pypirc
 

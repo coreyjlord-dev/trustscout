@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Inspection {{ run.id }} · TrustScout{% endblock %}
+{% block main %}
+<section class="run-head">
+  <p class="kicker">Inspection {{ run.id }}</p>
+  <h1>Live timeline</h1>
+  <p id="run-status" class="status">{{ run.status }}</p>
+  <p class="hint"><a href="/runs/{{ run.id }}/print">Open the finished report</a>
+    if you refresh after the stream closes.</p>
+</section>
+<div hx-ext="sse" sse-connect="/runs/{{ run.id }}/events" sse-close="done">
+  <ol id="timeline" class="timeline" sse-swap="step" hx-swap="beforeend"></ol>
+  <div id="panel" sse-swap="done" hx-swap="innerHTML"></div>
+</div>
+{% endblock %}

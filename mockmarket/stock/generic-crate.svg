@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420">
+  <rect width="640" height="420" fill="#ddd"/>
+  <rect x="160" y="120" width="320" height="200" fill="#a67c52"/>
+  <text x="180" y="390" font-size="20" fill="#888">STOCK CATALOG</text>
+</svg>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Report {{ run.id }} · TrustScout{% endblock %}
+{% block main %}
+<section class="run-head">
+  <p class="kicker">Inspection {{ run.id }}</p>
+  <h1>Report</h1>
+  <p class="status">{{ run.status }} · {{ run.mode }}</p>
+</section>
+<ol class="timeline">
+  {% for step in steps %}
+  {% include "step.html" %}
+  {% endfor %}
+</ol>
+{% include "panel.html" %}
+{% endblock %}
